@@ -1,880 +1,422 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>NAVPULSE AI™ | AI for Safer Medicines</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#ecfdf5',
-                            100: '#d1fae5',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                            800: '#065f46',
-                            900: '#064e3b',
-                        },
-                        navy: {
-                            800: '#1e293b',
-                            900: '#0f172a',
-                            950: '#020617',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        button, a, input {
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-        }
-        @media print {
-            .no-print { display: none !important; }
-            section { page-break-inside: avoid; }
-            #terminal { page-break-before: always; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAVPULSE AI™ | Clinical Medication Counselling System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
 </head>
-<body class="bg-white text-slate-900 font-sans antialiased">
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- TOP INSTITUTIONAL TRUST STRIP -->
-    <header class="bg-navy-950 text-slate-300 py-1.5 px-3 sm:px-4 text-[11px] border-b border-slate-800">
-        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-graduation-cap text-brand-500"></i>
-                <span class="font-medium text-white">Navjeevan Education Society's</span>
-                <span class="font-semibold text-slate-200">D. P. Kharde Navjeevan College of Pharmacy</span>
-                <span class="hidden md:inline text-slate-400">| Nandur Shingote, Nashik (PCI: 9178 • MSBTE: 62386 • DTE: 5539)</span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded font-medium text-[10px]">
-                    Startup Bright Path Incubation
-                </span>
-                <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-mono font-semibold text-[10px]">
-                    Research Prototype • Pharmacist-Aligned
-                </span>
-            </div>
+  <!-- Header Banner -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">
+          NP
         </div>
-    </header>
-
-    <!-- FLOATING NAVBAR -->
-    <nav class="sticky top-0 bg-white/95 backdrop-blur-md z-40 border-b border-slate-100 shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-heart-pulse text-base"></i>
-                </div>
-                <div class="leading-none">
-                    <div class="flex items-center gap-1">
-                        <span class="text-lg sm:text-xl font-extrabold tracking-tight text-navy-950">NAV<span class="text-brand-600">PULSE</span></span>
-                        <span class="text-[9px] bg-emerald-50 text-brand-700 border border-brand-200 px-1 py-0.5 rounded font-bold">AI™</span>
-                    </div>
-                    <span class="text-[10px] text-slate-500 font-medium">AI for Safer Medicines</span>
-                </div>
-            </a>
-
-            <!-- Desktop Links -->
-            <div class="hidden md:flex items-center space-x-7 text-xs sm:text-sm font-semibold text-slate-600">
-                <a href="#how-it-works" class="hover:text-brand-600 transition">How It Works</a>
-                <a href="#questions" class="hover:text-brand-600 transition">Standard Scenarios</a>
-                <a href="#terminal" class="hover:text-brand-600 transition">Live Terminal</a>
-                <a href="#safety" class="hover:text-brand-600 transition">Safety Governance</a>
-            </div>
-
-            <!-- Language Switcher & Try Button -->
-            <div class="flex items-center gap-2.5">
-                <div class="relative z-50 flex rounded-full bg-slate-100 p-1 border border-slate-200 text-xs font-bold">
-                    <button type="button" onclick="setLanguage('en')" id="btn-lang-en" class="px-3 py-1 rounded-full bg-brand-600 text-white shadow-xs transition active:scale-95">EN</button>
-                    <button type="button" onclick="setLanguage('mr')" id="btn-lang-mr" class="px-3 py-1 rounded-full text-slate-700 hover:text-slate-900 transition active:scale-95">मराठी</button>
-                </div>
-
-                <a href="#terminal" class="hidden sm:inline-flex items-center gap-1.5 bg-navy-900 hover:bg-brand-600 text-white font-bold px-4 py-2 rounded-full text-xs transition duration-200 shadow-sm">
-                    <span>Try Counselling</span>
-                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </a>
-            </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xl font-extrabold tracking-tight text-slate-900">NAVPULSE <span class="text-emerald-600">AI™</span></span>
+            <span class="text-[11px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">V2-Clinical</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">MSBTE Research Project | Planned RSAP Publication Study (Investigation Ongoing)</p>
         </div>
-    </nav>
-
-    <!-- EMERGENCY ALERT BANNER (V2 Spec: Prominent Top Placement) -->
-    <div id="emergency-banner" class="hidden bg-red-600 text-white px-4 py-2.5 border-b border-red-800 animate-pulse sticky top-14 z-50">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-triangle-exclamation text-yellow-300 text-lg"></i>
-                <div>
-                    <span class="font-extrabold uppercase tracking-wider">Clinical Triage Alert: Emergency Red-Flag Detected</span>
-                    <p class="text-[11px] text-red-100">Acute symptoms detected. AI counselling suspended. Proceed to emergency care immediately.</p>
-                </div>
-            </div>
-            <a href="tel:108" class="bg-white text-red-700 font-extrabold px-4 py-1 rounded-full text-xs shadow hover:bg-red-50 flex items-center gap-1 whitespace-nowrap">
-                <i class="fa-solid fa-phone"></i> Dial 108 Casualty
-            </a>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <div class="hidden md:flex items-center space-x-1.5 text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Pharmacist Oversight Protocol</span>
         </div>
+        <div class="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs font-semibold">
+          <button id="lang-en" onclick="setLanguage('en')" class="px-2.5 py-1 rounded-md bg-white text-slate-900 shadow-sm transition">EN</button>
+          <button id="lang-mr" onclick="setLanguage('mr')" class="px-2.5 py-1 rounded-md text-slate-500 hover:text-slate-900 transition">मराठी</button>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <!-- HERO SECTION -->
-    <section class="relative pt-8 pb-14 md:pt-14 md:pb-20 bg-gradient-to-b from-slate-50 via-white to-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                <!-- Left Hero Copy -->
-                <div class="lg:col-span-7 space-y-4 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 bg-emerald-50 border border-brand-200 text-brand-800 px-3.5 py-1.5 rounded-full text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
-                        <span>Safety-Grounded Medication Counselling Assistant</span>
-                    </div>
+  <!-- Research Notice / Safety Architecture Bar -->
+  <div class="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
+      <p class="text-slate-300">
+        <strong class="text-white">Clinical Safety Framework:</strong> Protocol-driven dual-stage triage and structured pharmacist-escalation pathways.
+      </p>
+      <div class="flex items-center space-x-2 text-[11px] text-slate-400">
+        <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> T1: Info</span>
+        <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> T2: Caution</span>
+        <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-400"></span> T3: Urgent</span>
+        <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> T4: Emergency</span>
+      </div>
+    </div>
+  </div>
 
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy-950 leading-[1.15]">
-                        Your AI Medication Assistant That Speaks <span class="text-brand-600">Your Language</span>
-                    </h1>
-
-                    <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed" id="hero-subtext">
-                        Ask about your medicines, dosage schedules, food interactions, and missed doses in simple Marathi or English. Designed around pharmacist-level counselling principles and evidence traceability.
-                    </p>
-
-                    <!-- Single Focused Patient CTA -->
-                    <div class="pt-2 flex justify-center lg:justify-start">
-                        <a href="#terminal" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-3.5 rounded-2xl text-sm transition shadow-lg shadow-brand-500/25 inline-flex items-center gap-2 active:scale-95">
-                            <i class="fa-solid fa-comment-medical text-base"></i>
-                            <span>Start Medication Check</span>
-                        </a>
-                    </div>
-
-                    <!-- Trust Checklist -->
-                    <div class="pt-3 flex flex-wrap justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-500">
-                        <div class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-check text-brand-600"></i>
-                            <span>Bilingual (मराठी & English)</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-check text-brand-600"></i>
-                            <span>Evidence Traceable</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-check text-brand-600"></i>
-                            <span>No App Installation Needed</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Hero: Responsive Chat Simulation Mockup -->
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="w-full max-w-[310px] sm:max-w-[330px] bg-navy-950 p-3 rounded-[38px] shadow-2xl border-4 border-slate-800">
-                        <!-- Screen Header -->
-                        <div class="bg-brand-700 text-white px-3.5 py-2.5 rounded-t-[26px] flex items-center gap-2.5 text-xs">
-                            <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs">
-                                <i class="fa-solid fa-heart-pulse text-white"></i>
-                            </div>
-                            <div class="leading-tight flex-1">
-                                <h4 class="font-bold text-xs">NAVPULSE AI™</h4>
-                                <span class="text-[10px] text-emerald-200">Research Prototype • Supervised</span>
-                            </div>
-                            <span class="text-[9px] bg-brand-800 px-1.5 py-0.5 rounded font-mono">Tiered Safety</span>
-                        </div>
-
-                        <!-- Chat Simulation Body (V2 Spec Corrected Claims) -->
-                        <div class="bg-slate-100 p-3 space-y-2 h-[380px] overflow-y-auto custom-scroll text-[11px] rounded-b-[26px]">
-                            <div class="flex justify-end">
-                                <div class="bg-emerald-100 text-slate-800 p-2 rounded-2xl rounded-tr-none max-w-[85%] shadow-xs">
-                                    <p>I forgot morning Metformin 500mg. Should I take two tonight?</p>
-                                    <span class="text-[8px] text-slate-400 block text-right mt-0.5">10:14 AM</span>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-start">
-                                <div class="bg-white text-slate-800 p-2.5 rounded-2xl rounded-tl-none max-w-[92%] shadow-xs space-y-1 border border-slate-200">
-                                    <div class="flex justify-between items-center">
-                                        <span class="font-bold text-brand-700 text-[10px]">💊 Metformin 500mg</span>
-                                        <span class="text-[8px] bg-emerald-50 text-emerald-800 font-bold px-1 rounded">TIER 1</span>
-                                    </div>
-                                    <p><strong>Advice:</strong> Do NOT take two tablets together tonight.</p>
-                                    <p><strong>Guidance:</strong> Skip the missed morning dose and resume your single prescribed dose with dinner.</p>
-                                    <div class="bg-amber-50 p-1.5 rounded border border-amber-200 text-amber-900 text-[9px] leading-tight">
-                                        <i class="fa-solid fa-circle-info"></i> Doubling doses increases gastrointestinal adverse effects (severe nausea/diarrhoea) without clinical benefit.
-                                    </div>
-                                    <span class="text-[8px] text-slate-400 block text-right">10:15 AM • NFI Monograph #MET-500</span>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-end">
-                                <div class="bg-emerald-100 text-slate-800 p-2 rounded-2xl rounded-tr-none max-w-[85%] shadow-xs">
-                                    <p>पँटाप ४० (Pantoprazole) कधी घ्यावी?</p>
-                                    <span class="text-[8px] text-slate-400 block text-right mt-0.5">10:16 AM</span>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-start">
-                                <div class="bg-white text-slate-800 p-2.5 rounded-2xl rounded-tl-none max-w-[90%] shadow-xs space-y-0.5 border border-slate-200">
-                                    <p><strong>सल्ला:</strong> सकाळी नाश्त्याच्या ३० ते ६० मिनिटे आधी उपाशीपोटी १ ग्लास पाण्यासोबत संपूर्ण गिळा.</p>
-                                    <span class="text-[8px] text-slate-400 block text-right">10:16 AM</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
+    <!-- Chat Window Card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-[700px] overflow-hidden">
+      
+      <!-- Terminal Header -->
+      <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+            <span>Clinical Medication Counselling Terminal</span>
+          </h2>
+          <p class="text-xs text-slate-500">Evidence-grounded counselling assisting registered pharmacist verification</p>
         </div>
-    </section>
+        <button onclick="clearChat()" class="text-xs text-slate-500 hover:text-slate-700 font-medium px-2.5 py-1 rounded border border-slate-200 hover:bg-slate-100 transition">
+          Clear Session
+        </button>
+      </div>
 
-    <!-- COMMON QUESTIONS (V2 Spec Q01-Q50 Scenarios) -->
-    <section id="questions" class="py-14 bg-white border-y border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2 mb-8">
-            <span class="bg-emerald-50 text-brand-700 border border-brand-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                Ask Anything
-            </span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight">
-                The questions you actually want to ask
-            </h2>
-            <p class="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto">
-                Tap any question below to immediately run evidence-grounded clinical counselling.
+      <!-- Messages Stream -->
+      <div id="chat-stream" class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- System Greeting -->
+        <div class="flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+            NP
+          </div>
+          <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 max-w-[85%] border border-slate-200">
+            <p id="greeting-text">
+              Welcome. I am your clinical medication counselling assistant developed under research collaboration at Navjeevan Education Society’s D. P. Kharde Navjeevan College of Pharmacy and Bright Path. How can I safely assist with your prescription dosage timing, food interactions, or administration precautions today?
             </p>
+            <div class="mt-3 pt-2.5 border-t border-slate-200 flex items-center gap-3 text-[11px] text-slate-500">
+              <span class="inline-flex items-center gap-1 text-emerald-700 font-semibold">
+                ✓ NFI/IP Structured Monographs
+              </span>
+              <span>•</span>
+              <span>Controlled Reasoning Protocol</span>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="max-w-5xl mx-auto px-4 space-y-2.5">
-            <!-- Row 1: Core Medication Use -->
-            <div class="flex flex-wrap justify-center gap-2">
-                <button type="button" onclick="injectPrompt('When should Pantoprazole 40mg be taken, before or after breakfast?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    🍽️ Q03: When should Pantoprazole be taken?
-                </button>
-                <button type="button" onclick="injectPrompt('I feel better after 3 days. Should I stop my Amoxicillin course?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    🦠 Q02: Should I stop antibiotic once fever drops?
-                </button>
-                <button type="button" onclick="injectPrompt('I forgot my morning Metformin 500mg dose. Should I take two tonight?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    ⏰ Q01: Forgot Metformin: Double dose at night?
-                </button>
-                <button type="button" onclick="injectPrompt('Can I take Ciprofloxacin with milk or curds?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    🥛 Q26: Can I take Ciprofloxacin with milk?
-                </button>
-            </div>
-
-            <!-- Row 2: Vernacular & Interactions -->
-            <div class="flex flex-wrap justify-center gap-2">
-                <button type="button" onclick="injectPrompt('पँटाप गोळी जेवणापूर्वी घ्यावी की जेवणानंतर?')" class="bg-emerald-50/70 hover:bg-emerald-100 border border-brand-200 text-brand-900 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    🇮🇳 पँटाप गोळी जेवणापूर्वी की नंतर?
-                </button>
-                <button type="button" onclick="injectPrompt('गोळी घ्यायची विसरलो तर रात्री दोन गोळ्या एकत्र घेऊ का?')" class="bg-emerald-50/70 hover:bg-emerald-100 border border-brand-200 text-brand-900 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    ⏰ डोस विसरल्यास रात्री दोन गोळ्या घेऊ का?
-                </button>
-                <button type="button" onclick="injectPrompt('Can I take Sildenafil if I am using Sorbitrate nitrate medicine for angina?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    ⚠️ Q22: Sildenafil + Sorbitrate interaction?
-                </button>
-                <button type="button" onclick="injectPrompt('I am on Inderal LA 20 along with Lipose 1 MD as morning dose. How should I take them?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    💊 Inderal LA 20 + Lipose 1 MD morning timing
-                </button>
-            </div>
-
-            <!-- Row 3: Emergency & Special Populations -->
-            <div class="flex flex-wrap justify-center gap-2">
-                <button type="button" onclick="triggerEmergencyTriage()" class="bg-red-50 hover:bg-red-100 border border-red-300 text-red-800 px-4 py-2 rounded-full text-xs font-bold transition active:scale-95 shadow-2xs">
-                    🚨 Q41: Severe crushing chest pain radiating to left arm
-                </button>
-                <button type="button" onclick="injectPrompt('Can my 3-year-old child take adult cold tablets?')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 text-slate-800 px-3.5 py-2 rounded-full text-xs font-medium transition active:scale-95 shadow-2xs">
-                    👶 Q32: Can a 3-year-old take adult cold tablets?
-                </button>
-            </div>
+      <!-- Input Area -->
+      <div class="p-4 bg-white border-t border-slate-200">
+        <form id="chat-form" onsubmit="handleQuerySubmit(event)" class="relative flex items-center">
+          <input 
+            type="text" 
+            id="query-input" 
+            placeholder="Type your medicine question (e.g., Pantoprazole timing, or full regimen)..." 
+            class="w-full pl-4 pr-24 py-3.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"
+            autocomplete="off"
+            required
+          >
+          <button 
+            type="submit" 
+            id="send-button"
+            class="absolute right-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold flex items-center gap-1.5 shadow-sm transition disabled:opacity-50"
+          >
+            <span>Send</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </button>
+        </form>
+        <div class="mt-2 text-center">
+          <p class="text-[11px] text-slate-400">
+            No autonomous prescribing. In case of acute symptoms (e.g., severe chest pain, breathlessness), dial 108 immediately.
+          </p>
         </div>
-    </section>
+      </div>
 
-    <!-- LIVE COUNSELLING TERMINAL -->
-    <section id="terminal" class="py-12 bg-slate-50">
-        <div class="max-w-4xl mx-auto px-4">
-            
-            <div class="text-center space-y-1 mb-6">
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-navy-950">
-                    Live Medication Counselling Terminal
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-500">
-                    Type your question below or tap any common prompt above.
-                </p>
-            </div>
+    </div>
+  </main>
 
-            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden flex flex-col h-[520px]">
-                
-                <!-- Terminal Header with Dynamic 4-Tier Risk Badge -->
-                <div class="bg-navy-950 text-white px-4 py-2.5 flex justify-between items-center text-xs">
-                    <div class="flex items-center space-x-2">
-                        <span id="risk-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span class="font-bold tracking-wide">NAVPULSE AI™ Clinical Console</span>
-                    </div>
-                    <span id="risk-pill" class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold">
-                        TIER 1 : INFORMATION (LOW RISK)
-                    </span>
-                </div>
+  <!-- Footer Disclaimer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-4xl mx-auto px-4 space-y-1">
+      <p class="font-medium text-slate-600">
+        NAVPULSE AI™ Clinical Decision Support Research System
+      </p>
+      <p>
+        Designed in accordance with Good Pharmacy Practice (GPP) principles to assist clinical counselling under registered pharmacist oversight.
+      </p>
+    </div>
+  </footer>
 
-                <!-- Chat Stream -->
-                <div id="chat-stream" class="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-50/50 custom-scroll">
-                    <div class="flex items-start gap-2.5 max-w-[90%]">
-                        <div class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0">
-                            <i class="fa-solid fa-robot"></i>
-                        </div>
-                        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-3.5 shadow-xs text-xs leading-relaxed space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 text-[10px]">
-                                <span class="font-bold text-slate-700">NAVPULSE AI™ Assistant</span>
-                                <span>Pharmacist-Aligned</span>
-                            </div>
-                            <p class="text-slate-700" id="terminal-welcome">
-                                Hello! I am your clinical medication counselling assistant developed under research collaboration at Navjeevan Education Society's D. P. Kharde Navjeevan College of Pharmacy and Bright Path. How can I help you safely understand your medication dosage timing, food interactions, or storage directions today?
-                            </p>
-                            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                                <span><i class="fa-solid fa-shield-halved text-emerald-600"></i> Evidence-Grounded</span>
-                                <span>No Autonomous Prescribing</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <script>
+    let currentLanguage = 'en';
 
-                <!-- Input Field & Send Button -->
-                <div class="p-3 bg-white border-t border-slate-200">
-                    <form id="chat-form" onsubmit="submitPatientQuery(event)" class="flex items-center gap-2">
-                        <input type="text" id="user-chat-input" placeholder="Type your medicine question (e.g., Pantoprazole timing)..." 
-                               class="flex-1 bg-slate-50 border border-slate-300 rounded-2xl px-4 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 focus:bg-white text-slate-900">
-                        <button type="submit" id="btn-submit-chat" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow transition active:scale-95 flex-shrink-0">
-                            <span>Send</span>
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      const btnEn = document.getElementById('lang-en');
+      const btnMr = document.getElementById('lang-mr');
+      const greeting = document.getElementById('greeting-text');
+      const input = document.getElementById('query-input');
 
+      if (lang === 'mr') {
+        btnMr.className = 'px-2.5 py-1 rounded-md bg-white text-slate-900 shadow-sm transition';
+        btnEn.className = 'px-2.5 py-1 rounded-md text-slate-500 hover:text-slate-900 transition';
+        greeting.innerText = 'नमस्कार! मी नवजीवन एज्युकेशन सोसायटीचे डी. पी. खर्डे नवजीवन कॉलेज ऑफ फार्मसी आणि ब्राईट पाथ यांच्या संयुक्त संशोधन प्रकल्पांतर्गत विकसित केलेला क्लिनिकल औषध समुपदेशन सहाय्यक आहे. औषधांच्या वेळा, अन्नासोबत घ्यावयाची काळजी किंवा दुष्परिणामांविषयी मी तुम्हाला कशी मदत करू शकतो?';
+        input.placeholder = 'औषधाबद्दल प्रश्न विचारा (उदा. पँटोप्राझोल कधी घ्यावे, किंवा औषधांचा डोस)...';
+      } else {
+        btnEn.className = 'px-2.5 py-1 rounded-md bg-white text-slate-900 shadow-sm transition';
+        btnMr.className = 'px-2.5 py-1 rounded-md text-slate-500 hover:text-slate-900 transition';
+        greeting.innerText = 'Welcome. I am your clinical medication counselling assistant developed under research collaboration at Navjeevan Education Society’s D. P. Kharde Navjeevan College of Pharmacy and Bright Path. How can I safely assist with your prescription dosage timing, food interactions, or administration precautions today?';
+        input.placeholder = 'Type your medicine question (e.g., Pantoprazole timing, or full regimen)...';
+      }
+    }
+
+    function clearChat() {
+      const stream = document.getElementById('chat-stream');
+      stream.innerHTML = `
+        <div class="flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">NP</div>
+          <div class="bg-slate-100 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 max-w-[85%] border border-slate-200">
+            <p>${currentLanguage === 'mr' ? 'सत्र रीसेट केले आहे. कृपया नवीन औषध प्रश्न प्रविष्ट करा.' : 'Session refreshed. Please enter your medication query.'}</p>
+          </div>
         </div>
-    </section>
+      `;
+    }
 
-    <!-- HOW IT WORKS (V2 Spec 7-Part Schema & Workflow) -->
-    <section id="how-it-works" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2 mb-12">
-            <span class="bg-emerald-50 text-brand-700 border border-brand-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                How It Works
+    async function handleQuerySubmit(event) {
+      event.preventDefault();
+      const input = document.getElementById('query-input');
+      const button = document.getElementById('send-button');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendUserMessage(query);
+      input.value = '';
+      input.disabled = true;
+      button.disabled = true;
+
+      const loadingId = appendLoadingIndicator();
+
+      try {
+        const response = await fetch('/api/counsel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: query, language: currentLanguage })
+        });
+
+        removeElement(loadingId);
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          renderCautionFallback(query, errData.error || 'Clinical response unavailable');
+          return;
+        }
+
+        const data = await response.json();
+        renderClinicalResponse(data);
+
+      } catch (err) {
+        removeElement(loadingId);
+        renderCautionFallback(query, 'Connection error. Uncertainty protocol activated.');
+      } finally {
+        input.disabled = false;
+        button.disabled = false;
+        input.focus();
+      }
+    }
+
+    function appendUserMessage(text) {
+      const stream = document.getElementById('chat-stream');
+      const userBubble = document.createElement('div');
+      userBubble.className = 'flex justify-end';
+      userBubble.innerHTML = `
+        <div class="bg-emerald-700 text-white rounded-2xl rounded-tr-none px-4 py-3 text-sm max-w-[80%] shadow-sm leading-relaxed">
+          ${escapeHtml(text)}
+        </div>
+      `;
+      stream.appendChild(userBubble);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function appendLoadingIndicator() {
+      const stream = document.getElementById('chat-stream');
+      const id = 'loading-' + Date.now();
+      const loader = document.createElement('div');
+      loader.id = id;
+      loader.className = 'flex items-start space-x-3';
+      loader.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">NP</div>
+        <div class="bg-slate-100 rounded-2xl rounded-tl-none p-3.5 text-xs text-slate-500 flex items-center space-x-2 border border-slate-200">
+          <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce"></span>
+          <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.15s"></span>
+          <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0.3s"></span>
+          <span class="ml-1 font-medium">Cross-referencing clinical formulary monographs...</span>
+        </div>
+      `;
+      stream.appendChild(loader);
+      stream.scrollTop = stream.scrollHeight;
+      return id;
+    }
+
+    function removeElement(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function renderClinicalResponse(data) {
+      const stream = document.getElementById('chat-stream');
+      const card = document.createElement('div');
+      card.className = 'flex items-start space-x-3';
+
+      // Deterministic Color Classes
+      let tierBadgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      let borderAccentClass = 'border-l-4 border-l-emerald-600';
+
+      if (data.risk_color === 'red' || data.is_emergency) {
+        tierBadgeClass = 'bg-red-100 text-red-800 border-red-300 font-bold animate-pulse';
+        borderAccentClass = 'border-l-4 border-l-red-600';
+      } else if (data.risk_color === 'orange') {
+        tierBadgeClass = 'bg-orange-100 text-orange-800 border-orange-300';
+        borderAccentClass = 'border-l-4 border-l-orange-500';
+      } else if (data.risk_color === 'yellow') {
+        tierBadgeClass = 'bg-yellow-100 text-yellow-900 border-yellow-300';
+        borderAccentClass = 'border-l-4 border-l-yellow-400';
+      }
+
+      // Evidence Monograph Traceability Card
+      let evidenceCard = '';
+      if (data.evidence_monograph) {
+        evidenceCard = `
+          <div class="mt-4 pt-3.5 border-t border-slate-200 text-xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                Evidence Traceability Monograph
+              </span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                ${data.evidence_monograph.status || 'Verified'}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 font-mono-code text-[11px] text-slate-600">
+              <div><strong class="text-slate-800 font-sans">Source:</strong> ${data.evidence_monograph.source}</div>
+              <div><strong class="text-slate-800 font-sans">Monograph:</strong> ${data.evidence_monograph.monograph_title}</div>
+              <div><strong class="text-slate-800 font-sans">Edition:</strong> ${data.evidence_monograph.edition}</div>
+              <div><strong class="text-slate-800 font-sans">Referenced Section:</strong> ${data.evidence_monograph.section}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Teach-back Section
+      let teachBackHtml = '';
+      if (data.teach_back_question) {
+        teachBackHtml = `
+          <div class="mt-4 p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs">
+            <p class="font-bold text-emerald-950 mb-2">Comprehension Verification (Teach-Back):</p>
+            <p class="text-slate-700 mb-2.5">${data.teach_back_question}</p>
+            <div class="space-y-1.5">
+              ${(data.teach_back_options || []).map((opt, i) => `
+                <button onclick="handleOptionSelect(this, ${i === (data.correct_option_index || 0)})" class="w-full text-left px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-emerald-400 text-slate-700 text-xs transition">
+                  ${opt}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="w-8 h-8 rounded-lg ${data.is_emergency ? 'bg-red-600' : 'bg-emerald-600'} text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">
+          ${data.is_emergency ? '!' : 'NP'}
+        </div>
+        <div class="bg-white rounded-2xl rounded-tl-none p-5 text-sm text-slate-800 max-w-[90%] border border-slate-200 shadow-sm ${borderAccentClass} space-y-3">
+          
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+            <div>
+              <span class="font-bold text-slate-900">${data.drug_name || 'Clinical Medication Review'}</span>
+              <span class="ml-2 text-[11px] font-semibold text-slate-500 uppercase">${data.schedule || 'Schedule H'}</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${tierBadgeClass}">
+              ${data.risk_tier || 'TIER 1 : INFORMATION'}
             </span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight">
-                Your Journey With NAVPULSE AI™
-            </h2>
-            <p class="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto">
-                Clinical safety architecture: Evidence layer, risk classification, and comprehension verification.
-            </p>
+          </div>
+
+          <div class="space-y-2 text-slate-700 leading-relaxed text-[13px]">
+            <p><strong class="text-slate-900">1. Core Advice:</strong> ${data.direct_answer}</p>
+            <p><strong class="text-slate-900">2. Administration & Timing:</strong> ${data.administration}</p>
+            <p><strong class="text-slate-900">3. Safety Precautions:</strong> ${data.precautions}</p>
+            <p><strong class="text-slate-900">4. Common Side Effects:</strong> ${data.side_effects}</p>
+            <p><strong class="text-slate-900">5. Warning Signs (Red Flags):</strong> <span class="text-red-700 font-medium">${data.red_flags}</span></p>
+            <p><strong class="text-slate-900">6. Clinical Referral:</strong> ${data.referral} (${data.referral_reason})</p>
+          </div>
+
+          ${teachBackHtml}
+          ${evidenceCard}
+
+          <div class="pt-2 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Section 7 Controlled Triage Protocol</span>
+            <span>Pharmacist Verification Required</span>
+          </div>
         </div>
+      `;
 
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-base font-bold">1</div>
-                <h4 class="font-bold text-slate-900 text-sm">Ask in Your Language</h4>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    Submit medication questions in natural Marathi or English regarding administration timing, missed doses, or adverse symptoms.
-                </p>
-            </div>
+      stream.appendChild(card);
+      stream.scrollTop = stream.scrollHeight;
+    }
 
-            <div class="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-base font-bold">2</div>
-                <h4 class="font-bold text-slate-900 text-sm">Evidence Layer Check</h4>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    Medication claims are checked against authoritative formulary rules (NFI / IP monographs) before text generation.
-                </p>
-            </div>
-
-            <div class="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-base font-bold">3</div>
-                <h4 class="font-bold text-slate-900 text-sm">7-Part Structured Advice</h4>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    Receive consistent structured guidance detailing core advice, precautions, food/drug interactions, and clear escalation criteria.
-                </p>
-            </div>
-
-            <div class="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-base font-bold">4</div>
-                <h4 class="font-bold text-slate-900 text-sm">Teach-Back Verification</h4>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    An interactive comprehension check confirms the patient understands the critical safety rule before taking their medicine.
-                </p>
-            </div>
+    function renderCautionFallback(query, reason) {
+      const stream = document.getElementById('chat-stream');
+      const card = document.createElement('div');
+      card.className = 'flex items-start space-x-3';
+      card.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">!</div>
+        <div class="bg-amber-50/70 rounded-2xl rounded-tl-none p-5 text-sm text-slate-800 max-w-[90%] border border-amber-200 border-l-4 border-l-amber-500 space-y-3">
+          <div class="flex items-center justify-between border-b border-amber-200/60 pb-2">
+            <span class="font-bold text-amber-900">Clinical Verification Notice</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+              TIER 2 : CAUTION
+            </span>
+          </div>
+          <p class="text-slate-700 text-xs">
+            Under our <strong>No-Guessing Safety Policy</strong>, precise medication counselling requires verified chemical name, formulation strength, and dosage form.
+          </p>
+          <div class="bg-white p-3 rounded-lg border border-amber-200 text-xs font-mono-code text-slate-600">
+            <strong>Query:</strong> "${escapeHtml(query)}"<br>
+            <span class="text-amber-800 font-sans mt-1 block">Please check your prescription packaging for the exact active drug name and strength, or consult your dispensing pharmacist directly.</span>
+          </div>
+          <div class="pt-1 text-[11px] text-amber-800/70 flex items-center justify-between">
+            <span>Section 7 Uncertainty Protocol Activated</span>
+            <span>Pharmacist Escalation</span>
+          </div>
         </div>
-    </section>
+      `;
+      stream.appendChild(card);
+      stream.scrollTop = stream.scrollHeight;
+    }
 
-    <!-- SAFETY GOVERNANCE & RESEARCH POSITIONING -->
-    <section id="safety" class="py-14 bg-navy-950 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                <div class="lg:col-span-6 space-y-3">
-                    <span class="text-brand-400 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                        Research Methodology & Safety Engine
-                    </span>
-                    <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                        Engineered to Prevent LLM Clinical Hazards
-                    </h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        Unlike unrestricted consumer chatbots that invent dosages or miss acute cardiac signs, NAVPULSE AI™ enforces hard deterministic guardrails and standardized evaluations across 50 clinical benchmark scenarios.
-                    </p>
-                    <div class="pt-2 grid grid-cols-2 gap-3 text-xs">
-                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800">
-                            <span class="text-sm font-bold text-brand-400 block">4-Tier Risk Engine</span>
-                            <span class="text-slate-400 text-[11px]">Information • Caution • Urgent • Emergency</span>
-                        </div>
-                        <div class="p-3 bg-slate-900 rounded-2xl border border-slate-800">
-                            <span class="text-sm font-bold text-brand-400 block">S0–S3 Research Audit</span>
-                            <span class="text-slate-400 text-[11px]">PHRR Metric under TRIPOD-LLM guidelines</span>
-                        </div>
-                    </div>
-                </div>
+    function handleOptionSelect(button, isCorrect) {
+      const parent = button.parentElement;
+      const buttons = parent.querySelectorAll('button');
+      buttons.forEach(btn => btn.disabled = true);
 
-                <div class="lg:col-span-6 bg-slate-900 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-3 text-xs">
-                    <h4 class="font-bold text-white text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-brand-400"></i> Governance & Legal Position
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed">
-                        NAVPULSE AI™ is an academic research prototype designed to assist patient understanding under registered pharmacist oversight. It does not replace professional medical advice, diagnostic consultations, or emergency medical services.
-                    </p>
-                    <div class="border-t border-slate-800 pt-3 text-[11px] text-slate-400 space-y-1">
-                        <div>• Zero independent prescribing or autonomous drug modification.</div>
-                        <div>• Immediate referral to 108 Ambulance upon acute cardiac or anaphylactic red flags.</div>
-                        <div>• Evidence-traceable knowledge layer based on verified monographs.</div>
-                    </div>
-                </div>
+      if (isCorrect) {
+        button.className = 'w-full text-left px-3 py-1.5 rounded-lg bg-emerald-100 border border-emerald-400 text-emerald-900 font-semibold text-xs';
+        const msg = document.createElement('p');
+        msg.className = 'text-[11px] text-emerald-700 font-medium mt-1.5';
+        msg.innerText = '✓ Correct understanding confirmed.';
+        parent.appendChild(msg);
+      } else {
+        button.className = 'w-full text-left px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-xs';
+        const msg = document.createElement('p');
+        msg.className = 'text-[11px] text-rose-700 font-medium mt-1.5';
+        msg.innerText = '⚠ Review medication timing and dosage instructions with your pharmacist.';
+        parent.appendChild(msg);
+      }
+    }
 
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-black text-slate-400 py-8 border-t border-slate-900 text-xs">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-3">
-            <div class="text-center md:text-left">
-                <span class="font-extrabold text-white text-sm">NAVPULSE AI™</span>
-                <p class="text-[11px] text-slate-500 mt-0.5">
-                    Research Prototype developed by Navjeevan Education Society's D. P. Kharde Navjeevan College of Pharmacy & Bright Path.
-                </p>
-            </div>
-            <div class="flex items-center gap-3 text-[11px]">
-                <span>DTE: 5539</span>
-                <span>•</span>
-                <span>MSBTE: 62386</span>
-                <span>•</span>
-                <span>PCI: 9178</span>
-            </div>
-        </div>
-    </footer>
-
-    <!-- CLIENT SCRIPT (NO HARDCODED DEFAULT FALLBACK) -->
-    <script>
-        let activeLanguage = 'en';
-
-        // Controlled Monograph Repository for Explicit Fallback Matching Only
-        const MONOGRAPH_DB = {
-            "metformin": {
-                name: "Metformin Hydrochloride 500mg",
-                schedule: "Schedule G / Prescribed Chronic",
-                citation: "National Formulary of India (NFI) - Monograph #MET-500",
-                tier: "TIER 1 : INFORMATION",
-                rules: {
-                    en: {
-                        direct: "Take Metformin 500mg with or immediately after meals to reduce gastrointestinal discomfort. Do NOT double your dose if you missed your morning pill.",
-                        admin: "Swallow whole with plain water. If you missed a dose, skip it and resume your normal schedule with your next meal. Never take two tablets together.",
-                        precautions: "Avoid excessive alcohol consumption. Maintain adequate hydration to prevent lactic acidosis risks.",
-                        side_effects: "Mild nausea, abdominal bloating, metallic taste, loose stools.",
-                        red_flags: "Severe unexplained muscle cramps, rapid shallow breathing, extreme fatigue.",
-                        referral: "Consult your doctor if severe stomach pain or diarrhea persists over 2 weeks.",
-                        referral_reason: "Persistent GI symptoms may require gradual dose titration or extended-release formulation change.",
-                        teachback: "If you missed your morning Metformin dose and it is evening, what should you do?",
-                        options: ["Skip the missed dose and take only your normal evening dose", "Take two tablets together tonight", "Stop taking medication entirely"],
-                        correct: 0
-                    },
-                    mr: {
-                        direct: "मेटफॉर्मिन (Metformin 500mg) नेहमी जेवणासोबत किंवा जेवणानंतर लगेच १ ग्लास पाण्यासोबत घ्या. सकाळचा डोस चुकला असल्यास रात्री दोन गोळ्या एकत्र घेऊ नका.",
-                        admin: "गोळी न चावता पाण्यासोबत गिळा. डोस चुकला असल्यास तो सोडून द्या आणि रात्रीचा नियमित १ डोस वेळेवर घ्या. कधीही २ गोळ्या एकत्र घेऊ नका.",
-                        precautions: "मद्यपान टाळा. भरपूर पाणी प्या.",
-                        side_effects: "सौम्य पोट फुगणे, मळमळ किंवा तोंडाला धातूची चव.",
-                        red_flags: "अतिशय थकवा, स्नायूंमध्ये तीव्र वेदना किंवा श्वास घेण्यास अडचण.",
-                        referral: "पोटाचा त्रास २ आठवड्यांपेक्षा जास्त राहिल्यास डॉक्टरांचा सल्ला घ्या.",
-                        referral_reason: "त्रास कायम राहिल्यास डोस बदलणे किंवा इतर फॉर्म्युलेशन देणे आवश्यक असू शकते.",
-                        teachback: "सकाळचा मेटफॉर्मिन डोस चुकला आणि रात्रीची वेळ झाली, तर काय कराल?",
-                        options: ["सकाळचा डोस सोडून फक्त रात्रीचा नेहमीचा १ डोस घेईन", "रात्री दोन्ही गोळ्या एकत्र घेईन", "औषध कायमचे बंद करेन"],
-                        correct: 0
-                    }
-                }
-            },
-            "amoxicillin": {
-                name: "Amoxicillin 500mg Capsule",
-                schedule: "Schedule H1 Antibiotic",
-                citation: "Indian Pharmacopoeia (IP) - Monograph #AMX-500",
-                tier: "TIER 2 : CAUTION",
-                rules: {
-                    en: {
-                        direct: "Finish the entire prescribed course even if you feel completely better after 3 days.",
-                        admin: "Take with water at evenly spaced intervals (e.g. every 8 hours) exactly as directed by your physician.",
-                        precautions: "Stopping antibiotic therapy early promotes antimicrobial resistance. Never share or save leftover capsules.",
-                        side_effects: "Mild loose stools, nausea, mild stomach cramps.",
-                        red_flags: "Severe watery diarrhoea, widespread rash, or facial swelling.",
-                        referral: "Contact your doctor if severe diarrhoea or allergic signs develop.",
-                        referral_reason: "Signs of severe hypersensitivity or Clostridioides difficile colitis require immediate clinical evaluation.",
-                        teachback: "Should you stop your antibiotic if you feel better after 3 days?",
-                        options: ["No, finish the full prescribed course", "Yes, stop immediately", "Take half a capsule"],
-                        correct: 0
-                    },
-                    mr: {
-                        direct: "३ दिवसांत बरे वाटले तरी अमोक्सिसिलिन (Amoxicillin) चा डॉक्टरांनी दिलेला संपूर्ण कोर्स पूर्ण करा.",
-                        admin: "दर ८ तासांच्या अंतराने १ ग्लास पाण्यासोबत वेळेवर घ्या.",
-                        precautions: "कोर्स अर्धवट सोडल्यास बॅक्टेरिया औषधाला दाद देत नाहीत. शिल्लक औषध इतरांना देऊ नका.",
-                        side_effects: "हलके पातळ जुलाब किंवा पोटात मुरडा.",
-                        red_flags: "अंगावर लाल पुरळ, चेहऱ्यावर सूज किंवा श्वास घेण्यास अडचण.",
-                        referral: "उलट्या किंवा जुलाब तीव्र झाल्यास डॉक्टरांशी संपर्क साधा.",
-                        referral_reason: "तीव्र ॲलर्जी किंवा आतड्यांचा संसर्ग टाळण्यासाठी डॉक्टरांचे मूल्यांकन आवश्यक असते.",
-                        teachback: "३ दिवसांत बरे वाटल्यास अँटिबायोटिक थांबवावे का?",
-                        options: ["नाही, संपूर्ण कोर्स वेळेत संपवेन", "होय, लगेच थांबवेन", "गोळी अर्धी करेन"],
-                        correct: 0
-                    }
-                }
-            },
-            "pantoprazole": {
-                name: "Pantoprazole 40mg Tablet",
-                schedule: "Schedule H / Antisecretory",
-                citation: "National Formulary of India (NFI) - Monograph #PAN-40",
-                tier: "TIER 1 : INFORMATION",
-                rules: {
-                    en: {
-                        direct: "Take Pantoprazole 40mg once daily in the morning, 30 to 60 minutes before breakfast.",
-                        admin: "Swallow whole with plain water on an empty stomach. Do not crush or chew delayed-release tablets.",
-                        precautions: "Taking after meals significantly reduces acid pump inhibition efficacy.",
-                        side_effects: "Mild headache, flatulence, transient abdominal pain.",
-                        red_flags: "Difficulty swallowing, unexplained weight loss, persistent vomiting.",
-                        referral: "Consult your doctor if severe acid symptoms persist beyond 14 days.",
-                        referral_reason: "Persistent symptoms require rule-out of peptic ulcer disease or reflux esophagitis.",
-                        teachback: "When is the optimal time to take Pantoprazole?",
-                        options: ["30 to 60 minutes before breakfast on an empty stomach", "Immediately after lunch", "At bedtime with warm milk"],
-                        correct: 0
-                    },
-                    mr: {
-                        direct: "पँटोप्राझोल (Pantoprazole) दररोज सकाळी नाश्त्याच्या ३० ते ६० मिनिटे आधी उपाशीपोटी घ्या.",
-                        admin: "गोळी न चावता पाण्यासोबत संपूर्ण गिळा.",
-                        precautions: "जेवणानंतर घेतल्यास औषधाचा आम्लपित्तावर योग्य परिणाम होत नाही.",
-                        side_effects: "सौम्य डोकेदुखी किंवा पोट फुगणे.",
-                        red_flags: "गिळताना त्रास होणे, उलटीतून रक्त किंवा अचानक वजन कमी होणे.",
-                        referral: "१४ दिवस घेऊनही त्रास न थांबल्यास डॉक्टरांना दाखवा.",
-                        referral_reason: "अल्सर किंवा गंभीर ॲसिड रिफ्लक्स तपासणीसाठी डॉक्टरांचा सल्ला आवश्यक असतो.",
-                        teachback: "पँटाप गोळी घेण्याची योग्य वेळ कोणती?",
-                        options: ["सकाळी नाश्त्याच्या ३०-६० मिनिटे आधी उपाशीपोटी", "जेवणानंतर लगेच", "रात्री झोपताना"],
-                        correct: 0
-                    }
-                }
-            },
-            "sildenafil_nitrate": {
-                name: "Sildenafil + Nitrate Contraindication",
-                schedule: "Critical Drug Interaction",
-                citation: "CDSCO Safety Alert & Clinical Pharmacovigilance Advisory",
-                tier: "TIER 3 : URGENT",
-                rules: {
-                    en: {
-                        direct: "NEVER take Sildenafil if you take Nitrate heart medicines (such as Sorbitrate / Nitroglycerin).",
-                        admin: "Co-administration is strictly contraindicated. Both cause massive vasodilation, precipitating profound, life-threatening hypotension.",
-                        precautions: "Do not take within 24 to 48 hours of each other under any circumstance.",
-                        side_effects: "Extreme dizziness, syncope, severe headache.",
-                        red_flags: "Sudden collapse, severe angina, loss of consciousness.",
-                        referral: "If taken accidentally, call emergency services (108) immediately and state both medications.",
-                        referral_reason: "Acute severe cardiovascular collapse and refractory hypotension require immediate emergency resuscitation.",
-                        teachback: "Is it safe to take Sildenafil with heart nitrate medicines?",
-                        options: ["No, it can cause a life-threatening drop in blood pressure", "Yes, with a 30-minute gap", "Yes, with fruit juice"],
-                        correct: 0
-                    },
-                    mr: {
-                        direct: "हृदयासाठी सोर्बिट्रेट (Nitrate) घेत असल्यास सिल्डेनाफिल (Sildenafil) कधीही घेऊ नका.",
-                        admin: "हे दोन्ही एकत्र घेणे अत्यंत घातक आहे. यामुळे रक्तदाब (BP) जीवघेण्या पातळीवर अचानक घसरू शकतो.",
-                        precautions: "२४ ते ४८ तासांच्या आत हे दोन्ही एकत्र कधीही घेऊ नका.",
-                        side_effects: "तीव्र चक्कर येणे, डोळ्यांसमोर अंधारी येणे.",
-                        red_flags: "तीव्र रक्तदाब घसरण, छातीत वेदना, बेशुद्ध पडणे.",
-                        referral: "चुकून एकत्र घेतल्यास तात्काळ १०८ वर कॉल करा आणि दोन्ही औषधांची नावे सांगा.",
-                        referral_reason: "रक्तदाब अचानक घसरून हृदयविकाराचा झटका येण्याचा गंभीर धोका असतो.",
-                        teachback: "हृदयाच्या औषधासोबत सिल्डेनाफिल घेणे सुरक्षित आहे का?",
-                        options: ["नाही, रक्तदाब अत्यंत धोकादायक पातळीवर घसरू शकतो", "होय, ३० मिनिटांच्या अंतराने", "होय, फळांच्या रसासोबत"],
-                        correct: 0
-                    }
-                }
-            }
-        };
-
-        function setLanguage(lang) {
-            activeLanguage = lang;
-            const btnEn = document.getElementById('btn-lang-en');
-            const btnMr = document.getElementById('btn-lang-mr');
-            const subtext = document.getElementById('hero-subtext');
-            const welcome = document.getElementById('terminal-welcome');
-            const input = document.getElementById('user-chat-input');
-
-            if (lang === 'mr') {
-                btnMr.className = "px-3 py-1 rounded-full bg-brand-600 text-white shadow-xs transition active:scale-95";
-                btnEn.className = "px-3 py-1 rounded-full text-slate-700 hover:text-slate-900 transition active:scale-95";
-                if(subtext) subtext.innerText = "औषधांची वेळ, योग्य वापर, खाण्यापिण्याशी संबंध आणि चुकलेल्या डोसबाबत मराठी किंवा इंग्रजीत सोप्या भाषेत माहिती मिळवा. डी. पी. खर्डे नवजीवन फार्मसी कॉलेजचे क्लिनिकल मार्गदर्शन.";
-                if(welcome) welcome.innerText = "नमस्कार! मी तुमचा क्लिनिकल औषध समुपदेशक आहे. डी. पी. खर्डे नवजीवन फार्मसी कॉलेज आणि ब्राईट पाथ संचलित संशोधन सेवेमध्ये आपले स्वागत आहे. औषधांच्या वेळेबद्दल किंवा सुरक्षिततेबद्दल तुम्हाला काय माहिती हवी आहे?";
-                if(input) input.placeholder = "तुमच्या औषधाबद्दल विचारा (उदा. पँटाप गोळी, डोस विसरल्यास)...";
-            } else {
-                btnEn.className = "px-3 py-1 rounded-full bg-brand-600 text-white shadow-xs transition active:scale-95";
-                btnMr.className = "px-3 py-1 rounded-full text-slate-700 hover:text-slate-900 transition active:scale-95";
-                if(subtext) subtext.innerText = "Ask about your medicines, dosage schedules, food interactions, and missed doses in simple Marathi or English. Designed around pharmacist-level counselling principles and evidence traceability.";
-                if(welcome) welcome.innerText = "Hello! I am your clinical medication counselling assistant developed under research collaboration at Navjeevan Education Society's D. P. Kharde Navjeevan College of Pharmacy and Bright Path. How can I help you safely understand your medication dosage timing, food interactions, or storage directions today?";
-                if(input) input.placeholder = "Type your medicine question (e.g., Pantoprazole timing)...";
-            }
-        }
-
-        function injectPrompt(promptText) {
-            const input = document.getElementById('user-chat-input');
-            if (input) input.value = promptText;
-            const terminal = document.getElementById('terminal');
-            if (terminal) terminal.scrollIntoView({ behavior: 'smooth' });
-            const form = document.getElementById('chat-form');
-            if (form) form.dispatchEvent(new Event('submit'));
-        }
-
-        function updateRiskBadge(tierStr) {
-            const pill = document.getElementById('risk-pill');
-            const dot = document.getElementById('risk-dot');
-            if (!pill || !dot) return;
-
-            if (tierStr.includes('EMERGENCY') || tierStr.includes('TIER 4')) {
-                pill.className = "bg-red-900/90 text-red-200 border border-red-700 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold animate-pulse";
-                pill.innerText = "TIER 4 : EMERGENCY";
-                dot.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-ping";
-            } else if (tierStr.includes('URGENT') || tierStr.includes('TIER 3')) {
-                pill.className = "bg-amber-900/90 text-amber-200 border border-amber-700 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold";
-                pill.innerText = "TIER 3 : URGENT";
-                dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
-            } else if (tierStr.includes('CAUTION') || tierStr.includes('TIER 2')) {
-                pill.className = "bg-yellow-900/90 text-yellow-200 border border-yellow-700 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold";
-                pill.innerText = "TIER 2 : CAUTION";
-                dot.className = "w-2.5 h-2.5 rounded-full bg-yellow-400";
-            } else {
-                pill.className = "bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold";
-                pill.innerText = "TIER 1 : INFORMATION";
-                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping";
-            }
-        }
-
-        async function submitPatientQuery(e) {
-            e.preventDefault();
-            const input = document.getElementById('user-chat-input');
-            const sendBtn = document.getElementById('btn-submit-chat');
-            const query = input.value.trim();
-            if (!query) return;
-
-            renderMessage(query, 'user');
-            input.value = '';
-            if (sendBtn) sendBtn.disabled = true;
-
-            // Deterministic Emergency Red-Flag Triage (V2 Spec Section 10)
-            if (/chest pain|कळ मारणे|हृदय|heart attack|radiating|anaphylaxis|poison|suicide|विषबाधा/i.test(query)) {
-                triggerEmergencyTriage();
-                if (sendBtn) sendBtn.disabled = false;
-                return;
-            }
-
-            // 1. Live Serverless Call to Gemini API
-            try {
-                const response = await fetch('/api/counsel', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: query, language: activeLanguage })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    if (data.is_emergency) {
-                        triggerEmergencyTriage();
-                    } else {
-                        renderStructuredResponse(data);
-                    }
-                    if (sendBtn) sendBtn.disabled = false;
-                    return;
-                } else {
-                    console.warn("Backend API notice:", data.error);
-                }
-            } catch (err) {
-                console.warn("Network notice, checking local monograph repository:", err);
-            }
-
-            // 2. Local Controlled Monograph Fallback ONLY for Exact Keyword Matches
-            let matchedKey = null;
-            if (/metformin|मेटफॉर्मिन/i.test(query)) matchedKey = "metformin";
-            else if (/amox|अमोक्सिसिलिन|antibiotic|अँटिबायोटिक/i.test(query)) matchedKey = "amoxicillin";
-            else if (/pantop|omep|पँटाप|पँटोप्राझोल|acidity|पित्त/i.test(query)) matchedKey = "pantoprazole";
-            else if (/sildenafil|sorbitrate|nitrate|सिल्डेनाफिल/i.test(query)) matchedKey = "sildenafil_nitrate";
-
-            if (matchedKey) {
-                const mono = MONOGRAPH_DB[matchedKey];
-                const rule = mono.rules[activeLanguage] || mono.rules.en;
-                renderStructuredResponse({
-                    risk_tier: mono.tier,
-                    drug_name: mono.name,
-                    schedule: mono.schedule,
-                    direct_answer: rule.direct,
-                    administration: rule.admin,
-                    precautions: rule.precautions,
-                    side_effects: rule.side_effects,
-                    red_flags: rule.red_flags,
-                    referral: rule.referral,
-                    referral_reason: rule.referral_reason,
-                    teach_back_question: rule.teachback,
-                    teach_back_options: rule.options,
-                    correct_option_index: rule.correct,
-                    citation: mono.citation
-                });
-            } else {
-                // V2 Spec: NO GUESSING - State Missing Information instead of defaulting to Metformin
-                renderUncertaintyResponse(query);
-            }
-
-            if (sendBtn) sendBtn.disabled = false;
-        }
-
-        function renderMessage(text, sender) {
-            const stream = document.getElementById('chat-stream');
-            if (sender === 'user') {
-                const html = `
-                    <div class="flex items-start justify-end gap-2 ml-auto max-w-[85%]">
-                        <div class="bg-brand-600 text-white rounded-2xl rounded-tr-none px-3.5 py-2.5 shadow-xs text-xs">
-                            <p>${text}</p>
-                        </div>
-                    </div>
-                `;
-                stream.insertAdjacentHTML('beforeend', html);
-            }
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        function renderStructuredResponse(data) {
-            updateRiskBadge(data.risk_tier || 'TIER 1 : INFORMATION');
-            const stream = document.getElementById('chat-stream');
-
-            const html = `
-                <div class="flex items-start gap-2.5 max-w-[92%]">
-                    <div class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0 mt-0.5">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-3.5 shadow-xs space-y-2 text-xs">
-                        <!-- Header & Schedule -->
-                        <div class="flex justify-between items-center border-b pb-1.5">
-                            <span class="font-bold text-slate-900">${data.drug_name || 'Clinical Guidance'}</span>
-                            <span class="text-[9px] bg-emerald-50 text-brand-800 font-mono px-2 py-0.5 rounded-full border border-brand-200">${data.schedule || 'Standard Verification'}</span>
-                        </div>
-                        
-                        <!-- 7-Part Counselling Schema (V2 Spec Section 8) -->
-                        <div class="space-y-1.5 text-slate-700 leading-relaxed">
-                            <p><strong class="text-slate-900">1. Core Advice:</strong> ${data.direct_answer}</p>
-                            <p><strong class="text-slate-900">2. Administration & Timing:</strong> ${data.administration}</p>
-                            <p><strong class="text-slate-900">3. Safety Precautions:</strong> ${data.precautions}</p>
-                            <p><strong class="text-slate-900">4. Common Side Effects:</strong> ${data.side_effects}</p>
-                            <p><strong class="text-red-700">5. Warning Signs (Red Flags):</strong> ${data.red_flags}</p>
-                            <p><strong class="text-slate-900">6. Clinical Referral:</strong> ${data.referral}</p>
-                            ${data.referral_reason ? `<p class="text-[11px] text-slate-500 bg-slate-50 p-1.5 rounded border border-slate-100"><strong>Why referral is advised:</strong> ${data.referral_reason}</p>` : ''}
-                        </div>
-
-                        <!-- Embedded Teach-Back Check -->
-                        ${data.teach_back_question && data.teach_back_options ? `
-                            <div class="mt-2 pt-2 border-t border-slate-100 bg-amber-50/70 p-2.5 rounded-xl space-y-1.5">
-                                <p class="font-bold text-slate-900 text-[11px]"><i class="fa-solid fa-graduation-cap text-amber-600"></i> Understanding Check: ${data.teach_back_question}</p>
-                                <div class="space-y-1">
-                                    ${data.teach_back_options.map((opt, i) => `
-                                        <button type="button" onclick="verifyTeachBack(this, ${i}, ${data.correct_option_index || 0})" class="w-full text-left p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-emerald-50 text-[11px] block transition">
-                                            ${opt}
-                                        </button>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-
-                        <!-- Citation & Traceability -->
-                        <div class="pt-1 text-[9px] text-slate-400 flex justify-between items-center">
-                            <span><i class="fa-solid fa-book-medical"></i> ${data.citation || 'Authoritative Monograph Reference'}</span>
-                            <span class="text-emerald-700 font-semibold">✓ Controlled Reasoning</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', html);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        function renderUncertaintyResponse(query) {
-            updateRiskBadge('TIER 2 : CAUTION');
-            const stream = document.getElementById('chat-stream');
-            const html = `
-                <div class="flex items-start gap-2.5 max-w-[92%]">
-                    <div class="w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0 mt-0.5">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="bg-white border border-amber-200 rounded-2xl rounded-tl-none p-3.5 shadow-xs space-y-2 text-xs">
-                        <div class="flex justify-between items-center border-b pb-1">
-                            <span class="font-bold text-amber-900">Clinical Verification Notice</span>
-                            <span class="text-[9px] bg-amber-100 text-amber-800 font-mono px-2 py-0.5 rounded-full font-bold">TIER 2 : CAUTION</span>
-                        </div>
-                        <p class="text-slate-700 leading-relaxed">
-                            Under our <strong>No-Guessing Safety Policy</strong>, precise medication counseling requires exact generic strength and dosage form. 
-                        </p>
-                        <p class="text-slate-600 bg-slate-50 p-2 rounded border border-slate-100">
-                            <strong>Query received:</strong> "${query}"<br>
-                            <em>Please check your prescription or packaging for the exact active drug name, strength (e.g. Propranolol 20mg sustained-release), or consult your dispensing pharmacist directly.</em>
-                        </p>
-                        <div class="pt-1 text-[9px] text-slate-400 flex justify-between">
-                            <span>Section 7 Uncertainty Protocol</span>
-                            <span class="text-amber-700 font-bold">Pharmacist Escalation</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', html);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        function verifyTeachBack(btn, selected, correct) {
-            const parent = btn.parentElement;
-            const buttons = parent.querySelectorAll('button');
-            buttons.forEach(b => b.disabled = true);
-
-            if (selected === correct) {
-                btn.className = "w-full text-left p-1.5 rounded-lg bg-emerald-100 border border-emerald-400 text-emerald-900 text-[11px] block font-bold";
-                btn.innerHTML += " <span class='float-right text-emerald-800'>✓ Correct</span>";
-            } else {
-                btn.className = "w-full text-left p-1.5 rounded-lg bg-amber-100 border border-amber-400 text-amber-900 text-[11px] block font-bold";
-                btn.innerHTML += " <span class='float-right text-amber-800'>⚠ Review directions</span>";
-            }
-        }
-
-        function triggerEmergencyTriage() {
-            updateRiskBadge('TIER 4 : EMERGENCY');
-            document.getElementById('emergency-banner').classList.remove('hidden');
-            const stream = document.getElementById('chat-stream');
-            const alertHTML = `
-                <div class="bg-red-50 border-2 border-red-500 rounded-2xl p-4 text-red-950 space-y-2 text-xs">
-                    <div class="flex items-center gap-2 font-bold text-red-700 text-sm">
-                        <i class="fa-solid fa-triangle-exclamation"></i> CRITICAL CLINICAL INTERRUPT
-                    </div>
-                    <p class="leading-relaxed font-semibold">Reported symptoms indicate a potential medical emergency. Routine automated counselling has been suspended.</p>
-                    <div class="pt-1 flex gap-2">
-                        <a href="tel:108" class="inline-flex items-center gap-1.5 bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs shadow hover:bg-red-800">
-                            <i class="fa-solid fa-phone"></i> Call 108 Emergency
-                        </a>
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', alertHTML);
-            stream.scrollTop = stream.scrollHeight;
-            const terminal = document.getElementById('terminal');
-            if (terminal) terminal.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
+    function escapeHtml(string) {
+      const entityMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+    }
+  </script>
 </body>
 </html>
