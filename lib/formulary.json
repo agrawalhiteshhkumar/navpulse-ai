@@ -1,0 +1,77 @@
+{
+  "version": "2026.1-NFI-IP",
+  "last_reviewed": "2026-10-11",
+  "monographs": {
+    "metformin": {
+      "generic_name": "Metformin Hydrochloride",
+      "class": "Biguanide Antihyperglycemic",
+      "schedule": "Schedule H",
+      "source": "National Formulary of India (NFI)",
+      "edition": "NFI 6th Edition",
+      "section": "Section 18.2: Antidiabetic Agents",
+      "monograph_title": "Metformin Tablets IP",
+      "missed_dose_rule": "Take as soon as remembered with a meal. If close to the next scheduled dose, skip the missed dose and resume normal schedule. DO NOT take extra medicine to make up for a missed dose. Note: In monotherapy, metformin carries low intrinsic hypoglycaemia risk, but arbitrary dose doubling increases acute gastrointestinal toxicity and adverse metabolic effects.",
+      "critical_contraindications": ["eGFR < 30 mL/min/1.73m² (Severe renal impairment)", "Acute metabolic acidosis", "Severe hepatic impairment"],
+      "red_flags": "Lactic acidosis symptoms: severe somnolence, unexplained muscle pain, severe abdominal discomfort, hypothermia, or rapid deep breathing."
+    },
+    "propranolol": {
+      "generic_name": "Propranolol Hydrochloride",
+      "class": "Non-selective Beta-Adrenergic Blocker",
+      "schedule": "Schedule H",
+      "source": "Indian Pharmacopoeia (IP)",
+      "edition": "IP 2022 Addendum",
+      "section": "Section 4.2: Cardiovascular Agents",
+      "monograph_title": "Propranolol Sustained-Release Capsules / Tablets IP",
+      "administration_rule": "Swallow sustained-release (LA) formulations whole. Do not crush, chew, or divide. Take consistently either with food or on an empty stomach to avoid bioavailability swings.",
+      "critical_contraindications": ["Severe bronchial asthma or COPD", "Second- or third-degree AV block", "Cardiogenic shock", "Sinus bradycardia (< 50 bpm)"],
+      "red_flags": "Severe bradycardia, worsening breathlessness, wheezing, or profound postural lightheadedness."
+    },
+    "lorazepam": {
+      "generic_name": "Lorazepam",
+      "class": "Benzodiazepine Anxiolytic",
+      "schedule": "Schedule H / Prescribed Sedative",
+      "source": "National Formulary of India (NFI)",
+      "edition": "NFI 6th Edition",
+      "section": "Section 24.1: Anxiolytics & Hypnotics",
+      "monograph_title": "Lorazepam Mouth Dissolving Tablets IP",
+      "administration_rule": "Mouth dissolving (MD) tablets dissolve rapidly on the tongue without additional water. Strictly avoid alcohol and concurrent central nervous system depressants without medical authorization.",
+      "critical_contraindications": ["Acute narrow-angle glaucoma", "Severe respiratory insufficiency", "Myasthenia gravis"],
+      "red_flags": "Extreme daytime somnolence, slowed shallow breathing, unsteadiness causing severe fall risk, or paradoxical agitation."
+    },
+    "methotrexate": {
+      "generic_name": "Methotrexate",
+      "class": "Antimetabolite / DMARD",
+      "schedule": "Schedule H",
+      "source": "Indian Pharmacopoeia (IP)",
+      "edition": "IP 2022",
+      "section": "Section 8.1: Immunosuppressants & Antineoplastics",
+      "monograph_title": "Methotrexate Tablets IP",
+      "dosage_frequency_safety": "WEEKLY ONLY for rheumatoid arthritis/psoriasis. NEVER DAILY. Accidental daily dosing causes fatal bone marrow suppression and gastrointestinal toxicity.",
+      "critical_contraindications": ["Pregnancy (Category X / Teratogen)", "Severe preexisting blood dyscrasias"],
+      "red_flags": "Oral mucosal ulceration, unexplained bleeding, high fever, or persistent sore throat indicating acute neutropenia."
+    },
+    "sildenafil": {
+      "generic_name": "Sildenafil Citrate",
+      "class": "Phosphodiesterase-5 (PDE5) Inhibitor",
+      "schedule": "Schedule H",
+      "source": "National Formulary of India (NFI)",
+      "edition": "NFI 6th Edition",
+      "section": "Section 12.4: Vasodilators",
+      "monograph_title": "Sildenafil Tablets IP",
+      "critical_interactions": ["Nitrates (e.g., Nitroglycerin, Isosorbide Dinitrate/Mononitrate, Nicorandil): Absolute contraindication due to life-threatening synergistic hypotension."],
+      "red_flags": "Severe unresolving chest pressure, profound hypotension, sudden visual disturbance, or painful priapism exceeding 4 hours."
+    },
+    "paracetamol": {
+      "generic_name": "Paracetamol (Acetaminophen)",
+      "class": "Analgesic & Antipyretic",
+      "schedule": "General / OTC",
+      "source": "Indian Pharmacopoeia (IP)",
+      "edition": "IP 2022",
+      "section": "Section 2.1: Non-Opioid Analgesics",
+      "monograph_title": "Paracetamol Tablets IP",
+      "maximum_dose_rule": "Maximum 4000 mg (4 g) per 24 hours in adults with normal hepatic function. Check all concurrent over-the-counter cold and cough preparations to avoid inadvertent duplicate paracetamol poisoning.",
+      "critical_contraindications": ["Severe active hepatic impairment"],
+      "red_flags": "Right upper quadrant abdominal pain, nausea, vomiting, or jaundice indicating acute hepatotoxicity from overdose."
+    }
+  }
+}
