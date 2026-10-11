@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Query is required.' });
   }
 
-  // 1. Emergency Red-Flag Triage
+  // 1. Hard Deterministic Emergency Triage
   const emergencyPattern = /chest pain|कळ मारणे|हृदयविकार|heart attack|crushing pain|radiating to left arm|anaphylaxis|poison|suicide|विषबाधा|struggling to breathe/i;
   if (emergencyPattern.test(query)) {
     return res.status(200).json({
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not configured in Vercel.' });
   }
 
-  // 2. Call Google Gemini API using gemini-flash-latest
+  // 2. Direct Call aligned with Google cURL Quickstart
   try {
     const prompt = `You are NAVPULSE AI™, a clinical medication counselling assistant.
 Patient Query: "${query}"
@@ -56,24 +56,22 @@ Provide evidence-grounded medication counselling in JSON format with these exact
   "correct_option_index": 0,
   "citation": "Indian Pharmacopoeia (IP) / NFI Reference"
 }
-Output ONLY valid JSON.`;
+Output ONLY valid JSON without Markdown blocks.`;
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
-
-    const headers = { 
-      'Content-Type': 'application/json',
-      'x-goog-api-key': API_KEY
-    };
-
-    if (API_KEY.startsWith('AQ.')) {
-      headers['Authorization'] = `Bearer ${API_KEY}`;
-    }
+    const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent';
 
     const response = await fetch(endpoint, {
       method: 'POST',
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-goog-api-key': API_KEY
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ],
         generationConfig: {
           temperature: 0.1
         }
@@ -82,6 +80,7 @@ Output ONLY valid JSON.`;
 
     if (!response.ok) {
       const errText = await response.text();
+      console.error('Gemini API Error:', response.status, errText);
       return res.status(response.status).json({ error: 'Gemini API call failed', details: errText });
     }
 
@@ -93,6 +92,7 @@ Output ONLY valid JSON.`;
     return res.status(200).json(parsed);
 
   } catch (err) {
+    console.error('Handler error:', err);
     return res.status(500).json({ error: err.message });
   }
 }
