@@ -27,21 +27,30 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        /* Safe area support for notched phones */
-        .safe-bottom { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+        /* Mobile height and safe-area adjustments */
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .safe-bottom {
+            padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 flex flex-col h-screen overflow-hidden font-sans antialiased">
+<body class="bg-slate-100 text-slate-800 flex flex-col h-full font-sans antialiased select-none">
 
-    <!-- COMPACT, PROFESSIONAL MOBILE HEADER -->
-    <header class="bg-navblue-950 text-white flex-shrink-0 shadow-sm border-b border-navblue-800 z-20">
-        <!-- Minimal Top Authority Line -->
-        <div class="px-3 py-1 bg-navblue-900/80 flex justify-between items-center text-[10px] text-slate-300">
-            <span class="truncate">D. P. Kharde Navjeevan College of Pharmacy & Bright Path</span>
+    <!-- COMPACT MOBILE & DESKTOP HEADER -->
+    <header class="bg-navblue-950 text-white flex-shrink-0 shadow-md border-b border-navblue-800 z-20">
+        <!-- Institutional Authority Strip -->
+        <div class="px-3 py-1 bg-navblue-900/90 flex justify-between items-center text-[10px] text-slate-300">
+            <span class="truncate font-medium">D. P. Kharde Navjeevan College of Pharmacy & Bright Path</span>
             <span class="font-mono text-emerald-400 font-semibold flex-shrink-0 ml-2">Sec. 42 Compliant</span>
         </div>
 
-        <!-- Main Header Bar -->
+        <!-- Main Product Bar -->
         <div class="px-3 py-2 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center text-white text-base shadow flex-shrink-0">
@@ -50,46 +59,46 @@
                 <div>
                     <div class="flex items-center gap-1.5 leading-none">
                         <span class="font-extrabold text-sm tracking-tight text-white">NAVPULSE AI™</span>
-                        <span class="text-[9px] bg-sky-900 text-sky-200 px-1.5 py-0.5 rounded-full border border-sky-700">v1.2</span>
+                        <span class="text-[9px] bg-sky-900 text-sky-200 px-1.5 py-0.5 rounded-full border border-sky-700 font-medium">v1.2</span>
                     </div>
                     <span class="text-[10px] text-sky-300 font-normal">AI for Safer Medicines</span>
                 </div>
             </div>
 
-            <!-- Controls: Language Toggle & Info Button -->
+            <!-- Controls: Language Toggle & Statutory Info -->
             <div class="flex items-center gap-2">
                 <div class="inline-flex rounded-lg bg-navblue-900 p-0.5 border border-navblue-800 text-[11px]">
                     <button onclick="setLanguage('en')" id="btn-lang-en" class="px-2 py-0.5 rounded font-semibold bg-sky-600 text-white">EN</button>
                     <button onclick="setLanguage('mr')" id="btn-lang-mr" class="px-2 py-0.5 rounded font-semibold text-slate-300 hover:text-white">मराठी</button>
                 </div>
-                <button onclick="toggleInfoDrawer()" class="w-7 h-7 rounded-full bg-navblue-900 border border-navblue-800 text-slate-300 flex items-center justify-center text-xs">
+                <button onclick="toggleInfoDrawer()" title="Regulatory Information" class="w-7 h-7 rounded-full bg-navblue-900 border border-navblue-800 text-slate-300 flex items-center justify-center text-xs hover:text-white">
                     <i class="fa-solid fa-info"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- EMERGENCY ALERT BANNER (Shown when triggered) -->
+    <!-- EMERGENCY ALERT BANNER (Triggers on acute red flags) -->
     <div id="emergency-banner" class="hidden bg-red-600 text-white px-3 py-2 flex-shrink-0 border-b border-red-800 animate-pulse z-30">
         <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2 text-xs">
                 <i class="fa-solid fa-triangle-exclamation text-yellow-300 text-base"></i>
                 <div>
-                    <span class="font-bold block leading-tight">EMERGENCY DETECTED</span>
-                    <span class="text-[10px] text-red-100">AI counselling suspended. Seek emergency care.</span>
+                    <span class="font-bold block leading-tight">EMERGENCY DETECTED / आणीबाणी इशारा</span>
+                    <span class="text-[10px] text-red-100">AI counselling suspended. Seek emergency care immediately.</span>
                 </div>
             </div>
-            <a href="tel:108" class="bg-white text-red-700 font-extrabold px-3 py-1 rounded-lg text-xs shadow hover:bg-red-50 flex items-center gap-1">
+            <a href="tel:108" class="bg-white text-red-700 font-extrabold px-3 py-1 rounded-lg text-xs shadow hover:bg-red-50 flex items-center gap-1 flex-shrink-0">
                 <i class="fa-solid fa-phone"></i> 108
             </a>
         </div>
     </div>
 
-    <!-- MAIN CHAT CONTAINER (Fills available screen space) -->
-    <main class="flex-1 overflow-y-auto p-3 space-y-3 custom-scroll bg-slate-50" id="chat-stream">
+    <!-- MAIN CHAT STREAM (Scrolls freely while keeping header & footer locked) -->
+    <main class="flex-1 overflow-y-auto p-3 space-y-3 bg-slate-50" id="chat-stream">
         
         <!-- Welcome Message Bubble -->
-        <div class="flex items-start gap-2 max-w-[92%] sm:max-w-[75%]">
+        <div class="flex items-start gap-2 max-w-[94%] sm:max-w-[80%]">
             <div class="w-7 h-7 rounded-full bg-navblue-700 text-white flex items-center justify-center text-xs shadow flex-shrink-0 mt-0.5">
                 <i class="fa-solid fa-robot"></i>
             </div>
@@ -107,33 +116,33 @@
 
     </main>
 
-    <!-- BOTTOM FIXED INTERACTION DOCK -->
-    <footer class="flex-shrink-0 bg-white border-t border-slate-200 safe-bottom">
+    <!-- LOCKED BOTTOM DOCK (Always visible above mobile navigation) -->
+    <footer class="flex-shrink-0 bg-white border-t border-slate-200 shadow-lg safe-bottom z-20">
         
-        <!-- Horizontally Scrollable Query Chips -->
+        <!-- Horizontally Scrollable Fast Action Chips -->
         <div class="px-2.5 pt-2 pb-1.5 flex gap-1.5 overflow-x-auto no-scrollbar">
-            <button onclick="handleQuickSelect('Q01')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition">
+            <button onclick="handleQuickSelect('Q01')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition active:scale-95">
                 💊 Metformin Timing & Missed Dose
             </button>
-            <button onclick="handleQuickSelect('Q02')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition">
+            <button onclick="handleQuickSelect('Q02')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition active:scale-95">
                 🦠 Amoxicillin Course
             </button>
-            <button onclick="handleQuickSelect('Q03')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition">
+            <button onclick="handleQuickSelect('Q03')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition active:scale-95">
                 🍽️ Omeprazole: Before/After Food
             </button>
-            <button onclick="handleQuickSelect('Q22')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition">
+            <button onclick="handleQuickSelect('Q22')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-[11px] whitespace-nowrap border border-slate-300 flex-shrink-0 transition active:scale-95">
                 ⚠️ Sildenafil + Nitrate Warning
             </button>
-            <button onclick="triggerEmergencyTriage()" class="bg-red-50 hover:bg-red-100 text-red-800 px-3 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap border border-red-300 flex-shrink-0 transition">
+            <button onclick="triggerEmergencyTriage()" class="bg-red-50 hover:bg-red-100 text-red-800 px-3 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap border border-red-300 flex-shrink-0 transition active:scale-95">
                 🚨 Triage: Chest Pain
             </button>
         </div>
 
-        <!-- Chat Input Field -->
-        <div class="px-3 py-2">
-            <form id="chat-form" onsubmit="submitPatientQuery(event)" class="flex gap-2">
+        <!-- Chat Input Form -->
+        <div class="px-3 py-2 bg-white">
+            <form id="chat-form" onsubmit="submitPatientQuery(event)" class="flex items-center gap-2">
                 <input type="text" id="user-chat-input" placeholder="Ask about your medicine..." 
-                       class="flex-1 bg-slate-50 border border-slate-300 rounded-full px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-navblue-600 focus:bg-white">
+                       class="flex-1 bg-slate-50 border border-slate-300 rounded-full px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-navblue-600 focus:bg-white text-slate-800">
                 <button type="submit" class="bg-navblue-700 hover:bg-navblue-800 text-white w-9 h-9 rounded-full flex items-center justify-center shadow flex-shrink-0 transition active:scale-95">
                     <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
@@ -141,12 +150,12 @@
         </div>
     </footer>
 
-    <!-- SLIDE-OUT DRAWER FOR STATUTORY & SYSTEM DETAILS (Hidden by default) -->
+    <!-- SLIDE-OUT STATUTORY DRAWER (Hidden by default) -->
     <div id="info-drawer" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex justify-end">
         <div class="bg-white w-full max-w-xs h-full p-4 overflow-y-auto space-y-4 text-xs shadow-xl">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 class="font-bold text-navblue-950 text-sm">System & Governance</h3>
-                <button onclick="toggleInfoDrawer()" class="text-slate-400 hover:text-slate-600 text-base">&times;</button>
+                <button onclick="toggleInfoDrawer()" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
             </div>
             
             <div class="space-y-2">
@@ -171,7 +180,7 @@
         </div>
     </div>
 
-    <!-- CORE JAVASCRIPT: LOGIC & SAFETY HANDLERS -->
+    <!-- CLIENT LOGIC & SAFETY HANDLERS -->
     <script>
         let activeLanguage = 'en';
 
@@ -184,9 +193,9 @@
                     en: {
                         direct: "Take Metformin 500mg with or immediately after meals to reduce stomach discomfort.",
                         admin: "Swallow whole with plain water. If you miss a dose by more than 4 hours, skip it. NEVER double your dose.",
-                        precautions: "Avoid alcohol. Stay properly hydrated.",
+                        precautions: "Avoid alcohol. Stay properly hydrated to prevent complications.",
                         side_effects: "Mild stomach bloating, metallic taste, nausea.",
-                        red_flags: "Severe fatigue, muscle pain, or trouble breathing.",
+                        red_flags: "Severe fatigue, unexplained muscle pain, or trouble breathing.",
                         referral: "Consult your doctor if stomach pain persists over 2 weeks.",
                         teachback: "If you miss your morning dose and it is already evening, what should you do?",
                         options: ["Skip the missed dose and take only your normal evening dose", "Take two tablets together", "Stop taking it for a week"],
@@ -327,13 +336,13 @@
             renderMessage(query, 'user');
             input.value = '';
 
-            // Emergency Red-Flag Triage
+            // Deterministic Emergency Red-Flag Triage
             if (/chest pain|कळ मारणे|हृदय|heart attack|radiating|anaphylaxis|poison|suicide|विषबाधा/i.test(query)) {
                 triggerEmergencyTriage();
                 return;
             }
 
-            // Try Live API Endpoint
+            // Call Serverless API
             try {
                 const response = await fetch('/api/counsel', {
                     method: 'POST',
@@ -354,7 +363,7 @@
                 // Offline fallback
             }
 
-            // Local Monograph Matching
+            // Local Monograph Matcher
             let matchKey = "Q01";
             if (/amox|syrup|सिरप|antibiotic/i.test(query)) matchKey = "Q02";
             else if (/omep|pantop|acidity|उपाशीपोटी/i.test(query)) matchKey = "Q03";
@@ -491,7 +500,7 @@
                 btn.innerHTML += " <span class='float-right'>✓ Correct</span>";
             } else {
                 btn.className = "w-full text-left p-1.5 rounded bg-amber-100 border border-amber-400 text-amber-900 text-[10px] block font-bold";
-                btn.innerHTML += " <span class='float-right'>⚠ Please re-read instructions</span>";
+                btn.innerHTML += " <span class='float-right'>⚠ Re-read advice</span>";
             }
         }
 
