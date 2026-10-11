@@ -1,79 +1,149 @@
 export default async function handler(req, res) {
+  // Enforce POST method
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    return res.status(455).json({ error: 'Method not allowed. Use POST.' });
   }
 
   const { query, language = 'en' } = req.body;
-  if (!query) {
-    return res.status(400).json({ error: 'Missing query parameter.' });
+
+  if (!query || typeof query !== 'string' || !query.trim()) {
+    return res.status(400).json({ error: 'Query parameter is required.' });
   }
 
-  // 1. DETERMINISTIC SAFETY GATE: Immediate Emergency Red Flags
-  const EMERGENCY_REGEX = /chest pain|heart attack|कळ मारणे|छातीत दुखणे|breathing difficulty|दम लागणे|anaphylaxis|poison|विषबाधा|overdose|suicide/i;
-  if (EMERGENCY_REGEX.test(query)) {
+  // 1. HARD DETERMINISTIC SAFETY GATE: Immediate Emergency Red-Flag Triage
+  // Bypasses LLM entirely to prevent delay or hallucinated reassurance (V2 Spec Section 10)
+  const emergencyPattern = /chest pain|कळ मारणे|हृदयविकार|heart attack|crushing pain|radiating to left arm|anaphylaxis|poison|suicide|विषबाधा|struggling to breathe|severe breathlessness/i;
+  if (emergencyPattern.test(query)) {
     return res.status(200).json({
-      triage_level: 'RED',
       is_emergency: true,
+      risk_tier: 'TIER 4 : EMERGENCY',
+      s_category: 'S3',
+      drug_name: 'EMERGENCY RED FLAG DETECTED',
+      schedule: 'Immediate Casualty Referral',
       direct_answer: language === 'mr' 
-        ? 'आणीबाणी इशारा: तीव्र छातीत वेदना किंवा श्वास घेण्यास अडचण ही गंभीर वैद्यकीय आणीबाणी असू शकते. सामान्य औषध समुपदेशन तात्काळ थांबवले आहे.'
-        : 'EMERGENCY RED FLAG: Severe chest pain or respiratory distress indicates a potential life-threatening emergency. Normal counseling is suspended.',
-      action_required: 'Immediate emergency transfer to Casualty / 108 Ambulance.'
+        ? 'आणीबाणी चेतावणी: ही लक्षणे गंभीर वैद्यकीय आणीबाणी दर्शवतात. तात्काळ आपत्कालीन वैद्यकीय मदत घ्या.'
+        : 'CRITICAL EMERGENCY: Reported symptoms indicate an acute clinical emergency requiring immediate in-person casualty care.',
+      administration: language === 'mr' 
+        ? 'औषध समुपदेशन थांबवण्यात आले आहे. ताबडतोब रुग्णवाहिकेशी संपर्क साधा.'
+        : 'Automated counselling suspended. Do not delay emergency evaluation.',
+      precautions: language === 'mr' 
+        ? 'रुग्णाला हालचाल करू देऊ नका आणि त्वरित वैद्यकीय मदत मिळेपर्यंत शांत ठेवा.'
+        : 'Keep the patient calm and seated. Do not administer oral tablets unless instructed by emergency crew.',
+      side_effects: 'N/A - Clinical Emergency',
+      red_flags: language === 'mr' 
+        ? 'छातीत तीव्र कळ, डाव्या हातात कळ, चक्कर, श्वास घेण्यास तीव्र अडचण.'
+        : 'Severe crushing chest discomfort, pain radiating to left arm/jaw, diaphoresis, acute breathlessness.',
+      referral: language === 'mr' 
+        ? 'तातडीने १०८ वर कॉल करा किंवा जवळच्या अतिदक्षता विभागात (ICU/Casualty) जा.'
+        : 'Call 108 Emergency Casualty immediately or proceed to the nearest emergency department.',
+      referral_reason: language === 'mr'
+        ? 'लक्षणे संभाव्य हृदयविकार किंवा तीव्र जीवघेणी स्थिती दर्शवतात.'
+        : 'Reported symptoms are consistent with acute coronary syndrome or critical cardiopulmonary distress.',
+      teach_back_question: language === 'mr' 
+        ? 'तातडीची लक्षणे असताना प्रथम काय करावे?' 
+        : 'What is the immediate required action during severe chest pain?',
+      teach_back_options: language === 'mr' 
+        ? ['तातडीने १०८ ला फोन करावा किंवा रुग्णालयात जावे', 'घरगुती काढा प्यावा', 'सकाळपर्यंत थांबावे']
+        : ['Call 108 Emergency immediately or proceed to hospital', 'Wait until morning', 'Take an antacid and rest'],
+      correct_option_index: 0,
+      citation: 'National Emergency Clinical Triage Protocol'
     });
   }
 
-  // 2. CALL GOOGLE AI STUDIO (GEMINI 2.5 FLASH)
+  // 2. GOOGLE AI STUDIO CREDENTIAL CHECK
   const API_KEY = process.env.GEMINI_API_KEY;
   if (!API_KEY) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY not configured.' });
+    return res.status(500).json({ 
+      error: 'GEMINI_API_KEY environment variable is not configured in Vercel settings.' 
+    });
   }
 
-  const SYSTEM_INSTRUCTION = `
-You are NAVPULSE AI™, an evidence-grounded medication counselling assistant developed by Navjeevan Education Society's D. P. Kharde Navjeevan College of Pharmacy and Bright Path.
-REGULATORY COMPLIANCE:
-- You must strictly comply with Section 42 of the Pharmacy Act, 1948 and the Drugs & Cosmetics Act, 1940.
-- NEVER independently prescribe, diagnose, or modify dosages of Schedule H, H1, or X medications.
-- Answer in the selected language: ${language === 'mr' ? 'Marathi' : 'English'}.
-OUTPUT FORMAT: Return raw JSON conforming strictly to:
+  // 3. SYSTEM PROMPT: 7-Part Counselling Schema & Controlled Reasoning (V2 Spec Section 8)
+  const systemInstruction = `You are the clinical counselling engine of NAVPULSE AI™, developed under academic research guidance.
+You are NOT a prescribing doctor and NOT an autonomous medical decision-maker.
+Your role: Provide structured, patient-friendly medication counselling adhering strictly to a 7-part schema.
+Follow the "No Guessing Policy" (V2 Spec Section 7):
+- If the medicine name, strength, or critical patient context is missing or ambiguous, state the limitation and ask for clarification.
+- Never invent a dosage, maximum dose, or unverified administration rule.
+- Do NOT make unsupported claims (never claim doubling metformin causes acute hypoglycemia; instead correctly explain GI disturbance, chronic risks, and safe missed-dose protocol).
+- Classify the risk tier objectively:
+  - TIER 1 : INFORMATION (Standard routine advice)
+  - TIER 2 : CAUTION (Potential food/drug interaction, minor side effect, missing formulation context)
+  - TIER 3 : URGENT (Significant clinical concern requiring same-day professional prescriber review)
+  - TIER 4 : EMERGENCY (Acute red flags)
+
+OUTPUT REQUIREMENTS:
+You MUST respond ONLY with a single valid JSON object with these exact keys:
 {
-  "drug_name": "Identified drug or inquiry",
-  "schedule": "Regulatory classification",
-  "direct_answer": "1. Direct concise advice",
-  "administration": "2. How/when to take and food relationship",
-  "precautions": "3. Critical cautions and interactions",
-  "side_effects": "4. Common self-limiting effects",
-  "red_flags": "5. Emergency warning signs",
-  "referral": "6. When to consult RPh or Doctor",
-  "teach_back_question": "7. Single comprehension question",
-  "teach_back_options": ["Option A", "Option B", "Option C"],
+  "is_emergency": boolean,
+  "risk_tier": "TIER 1 : INFORMATION" | "TIER 2 : CAUTION" | "TIER 3 : URGENT" | "TIER 4 : EMERGENCY",
+  "s_category": "S0" | "S1" | "S2" | "S3",
+  "drug_name": "Generic/Brand name identified with strength or 'Missing Details'",
+  "schedule": "Schedule H / H1 / G / OTC / Controlled",
+  "direct_answer": "Clear, direct 1-2 sentence core answer to the patient's inquiry",
+  "administration": "How and when to take, food relationship, missed dose advice",
+  "precautions": "Key safety precautions, what to avoid (alcohol, dairy chelation, etc.)",
+  "side_effects": "Common, non-emergency side effects to monitor",
+  "red_flags": "Warning signs requiring urgent medical discontinuation/review",
+  "referral": "Appropriate doctor or pharmacist referral recommendation",
+  "referral_reason": "Clear explanation of why this professional referral is recommended",
+  "teach_back_question": "One practical multiple-choice question testing understanding of the key rule",
+  "teach_back_options": ["Correct option", "Incorrect plausible option 1", "Incorrect plausible option 2"],
   "correct_option_index": 0,
-  "citation": "Authoritative Indian Pharmacopoeia / NFI monograph citation"
+  "citation": "Authoritative reference (e.g. NFI 2021 / IP / CDSCO Monograph)"
 }
-`;
+Respond in the language requested by the user: ${language === 'mr' ? 'Marathi (मराठी)' : 'English'}.`;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+    // Calling production-grade Gemini 1.5 Flash at zero temperature
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+    const payload = {
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: `${systemInstruction}\n\nPatient Query: "${query}"` }]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.0,
+        topK: 1,
+        topP: 0.1,
+        responseMimeType: "application/json"
+      }
+    };
+
+    const apiResponse = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: query }] }],
-        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: {
-          temperature: 0.0,
-          responseMimeType: "application/json"
-        }
-      })
+      body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
-    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    const structuredResult = JSON.parse(rawText);
+    if (!apiResponse.ok) {
+      const errBody = await apiResponse.text();
+      return res.status(apiResponse.status).json({ 
+        error: `Google Gemini API returned status ${apiResponse.status}`,
+        details: errBody
+      });
+    }
 
-    return res.status(200).json({
-      triage_level: 'GREEN',
-      is_emergency: false,
-      ...structuredResult
+    const data = await apiResponse.json();
+    const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!candidateText) {
+      return res.status(502).json({ error: 'Empty response returned by Google Gemini model.' });
+    }
+
+    // Clean any accidental markdown backticks before JSON parsing
+    const cleanedJsonStr = candidateText.replace(/^```json/i, '').replace(/```$/i, '').trim();
+    const parsedCounselling = JSON.parse(cleanedJsonStr);
+
+    return res.status(200).json(parsedCounselling);
+
+  } catch (err) {
+    return res.status(500).json({ 
+      error: 'Clinical reasoning engine error', 
+      message: err.message 
     });
-  } catch (error) {
-    return res.status(500).json({ error: 'Inference failure: ' + error.message });
   }
 }
