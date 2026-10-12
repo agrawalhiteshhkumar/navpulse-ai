@@ -55,7 +55,7 @@
 
       <!-- ACTIONS: INSTALL, WHATSAPP, VIEW TABS, LANGUAGE -->
       <div class="flex items-center space-x-2 sm:space-x-3">
-        <!-- PWA Install Button (Hidden until Chrome triggers event) -->
+        <!-- PWA Install Button (Activated by browser) -->
         <button id="btn-install-app" onclick="installPWA()" class="hidden px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm transition items-center gap-1.5">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span class="hidden sm:inline">Install App</span>
@@ -281,14 +281,12 @@
     let isRunning = false;
     let deferredPrompt = null;
 
-    // Service Worker Registration for PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
     }
 
-    // Capture Chrome PWA Install Prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -388,7 +386,6 @@
           body: JSON.stringify({ query: item.query, language: 'en' })
         });
 
-        // Adaptive Backoff on HTTP 429
         if (response.status === 429 && retries > 0) {
           if (statusEl) statusEl.innerHTML = '<span class="text-amber-600 font-semibold">Quota wait (5s)...</span>';
           await new Promise(r => setTimeout(r, 5000));
@@ -425,7 +422,6 @@
       for (let i = 0; i < batteryData.length; i++) {
         const item = batteryData[i];
         
-        // Skip scenarios that already succeeded
         if (benchmarkResults[item.id] && benchmarkResults[item.id].risk_tier) {
           continue;
         }
@@ -433,7 +429,6 @@
         document.getElementById('status-indicator').innerText = `Running ${item.id} (${i+1}/${batteryData.length})...`;
         await runSingle(item.id);
         
-        // 4-second delay to comfortably respect the 15 RPM quota
         await new Promise(r => setTimeout(r, 4000));
       }
 
