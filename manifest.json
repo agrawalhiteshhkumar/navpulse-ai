@@ -1,0 +1,21 @@
+{
+  "name": "NAVPULSE AI — Medication Counselling Assistant",
+  "short_name": "NAVPULSE AI",
+  "description": "Safety-Grounded Medication Counselling Assistant developed by students of Navjeevan Education Society's D. P. Kharde Navjeevan College of Pharmacy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/fluency/192/caduceus.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/fluency/512/caduceus.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
