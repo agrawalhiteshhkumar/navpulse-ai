@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 // Load static formulary knowledge safely
 let formularyData = null;
@@ -12,7 +12,7 @@ try {
   console.warn('Formulary local cache load warning:', e.message);
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
@@ -28,7 +28,6 @@ export default async function handler(req, res) {
   const lowerQuery = cleanQuery.toLowerCase();
   let triageTier = 'TIER 1: INFORMATION';
   let triageColor = 'green';
-  let emergencyHalt = false;
 
   const urgentKeywords = [
     'swelling of lips', 'hives', 'anaphylaxis', 'trouble breathing',
@@ -68,7 +67,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not configured in Vercel.' });
   }
 
-  // GATE 4: CONSTRAINED INFERENCE
+  // GATE 4: CONSTRAINED INFERENCE PROMPT
   const prompt = `You are a clinical decision support system for pharmacists adhering to Good Pharmacy Practice (GPP) and the National Formulary of India (NFI).
 Evaluate the following clinical scenario:
 "${cleanQuery}"
@@ -94,14 +93,15 @@ Return ONLY a valid JSON object matching this exact schema:
 }
 Output ONLY raw valid JSON without markdown formatting or code fences.`;
 
-  // USE STABLE GEMINI 1.5 FLASH ENDPOINT (SUPPORTS BOTH AUTH HEADERS AND URL KEY PARAMS)
+  // STABLE GEMINI 1.5 FLASH ENDPOINT WITH BOTH QUERY PARAM AND HEADER SUPPORT
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
   try {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': API_KEY
       },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
@@ -126,4 +126,4 @@ Output ONLY raw valid JSON without markdown formatting or code fences.`;
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
-}
+};
